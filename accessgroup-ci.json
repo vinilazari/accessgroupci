@@ -1935,7 +1935,7 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
-							"pm.environment.set(\"symbols\", pm.variables.replaceIn(\"{{$randomJobArea}}\"+ \"!@@_.,@-;/\"))"
+							"pm.environment.set(\"symbols\", pm.variables.replaceIn(\"{{$randomJobArea}}\"+ \"!@@_.,@-;/@$**!\"+ \"{{$randomHexColor}}\"))"
 						],
 						"type": "text/javascript"
 					}
@@ -2968,110 +2968,6 @@
 			"response": []
 		},
 		{
-			"name": "Tentativa de alterar cadastro com nome de grupo já existente",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"pm.environment.set(\"nameGroup\", pm.variables.replaceIn('{{$randomJobArea}}') + '_' + pm.variables.replaceIn('{{$randomColor}}') + \"_alterado\");\r",
-							"\r",
-							"\r",
-							"pm.sendRequest({\r",
-							"      url:  \"https://flutter.qacoders-academy.com.br/api/accessgroups\", \r",
-							"      method: 'GET',\r",
-							"      header: {\r",
-							"        'Accept': 'application/json',\r",
-							"        'Authorization': pm.environment.get('Token')\r",
-							"      },\r",
-							"      body: {}\r",
-							"  }, function (err, res) {\r",
-							"    var lista = []\r",
-							"    var data = res.json();\r",
-							"    for (let i = 0; i < data.length; i++) {\r",
-							"        var push_list = lista.push(data[i]._id)\r",
-							"}    \r",
-							"\r",
-							"    function RandomizaID() {\r",
-							"        randomItem = lista [Math.floor(Math.random() * lista.length)];\r",
-							"\r",
-							"    return randomItem\r",
-							"}\r",
-							"\r",
-							"     pm.environment.set(\"NewID\", RandomizaID())\r",
-							"\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"let jsonData = pm.response.json()\r",
-							"\r",
-							"pm.test(\"Status code is 500\", function () {\r",
-							"    pm.response.to.have.status(500);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"mensagem de erro está correta\", function () {\r",
-							"    \r",
-							"});\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "apikey",
-					"apikey": [
-						{
-							"key": "value",
-							"value": "{{Token}}",
-							"type": "string"
-						},
-						{
-							"key": "key",
-							"value": "Authorization",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "{{Token}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"nameGroup\": \"Markets_sky blue!!!@@@@@___\",\r\n    \"audit\": [\r\n        {\r\n            \"loginUser\": \"teste147\",\r\n            \"registrationDate\": \"Sat Feb 11 2023 18:49:33 GMT-0300 (Horário Padrão de Brasília)\",\r\n            \"registration\":\"QaCoders-0001\"\r\n        }\r\n    ]\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/accessGroups/{{NewID}}",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"accessGroups",
-						"{{NewID}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Tentativa de alterar cadastro com caracteres especiais",
 			"event": [
 				{
@@ -3631,31 +3527,8 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
 		}
 	],
-	"auth": {
-		"type": "apikey",
-		"apikey": [
-			{
-				"key": "value",
-				"value": "{{Token}}",
-				"type": "string"
-			},
-			{
-				"key": "key",
-				"value": "Authorization",
-				"type": "string"
-			}
-		]
-	},
 	"event": [
 		{
 			"listen": "prerequest",
